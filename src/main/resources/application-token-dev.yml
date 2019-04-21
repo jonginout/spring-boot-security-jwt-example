@@ -1,0 +1,5 @@
+token:
+  secret: reddy-token-secret
+  header-name: Authorization
+  header-prefix: 'Bearer '
+  expiration: 7200

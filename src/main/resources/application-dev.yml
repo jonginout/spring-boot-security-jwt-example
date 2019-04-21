@@ -1,0 +1,6 @@
+spring.profiles.include: db-dev, token-dev
+
+debug: true
+
+spring.jpa.properties.hibernate.format_sql: true
+logging.level.org.hibernate.type.descriptor.sql.BasicBinder: trace
