@@ -15,15 +15,17 @@ import javax.servlet.http.HttpServletResponse
 
 class LoginAuthenticationProcessingFilter (
     loginPath: String,
-    private val objectMapper: ObjectMapper,
+    private val objectMapper: ObjectMapper, // Json을 파싱할 수 있는 ObjectMapper (잭슨)
     private val authenticationSuccessHandler: AuthenticationSuccessHandler
 ) : AbstractAuthenticationProcessingFilter(
+    // url 매치 객체를 통해 이 필터가 실행될 URL 패턴을 셋한다.
     AntPathRequestMatcher(loginPath, HttpMethod.POST.name)
 ) {
 
     @Throws(Exception::class)
-    override fun attemptAuthentication(request: HttpServletRequest?, response: HttpServletResponse?): Authentication {
-        val loginRequest: LoginRequest = this.objectMapper.readValue(request?.reader, LoginRequest::class.java)
+    override fun attemptAuthentication(request: HttpServletRequest, response: HttpServletResponse): Authentication {
+                                                                    // 읽힐 대상        // 자바객체 매핑
+        val loginRequest: LoginRequest = this.objectMapper.readValue(request.reader, LoginRequest::class.java)
         if (!loginRequest.validate()) {
             throw AuthenticationServiceException("유효하지 않는 아이디/비밀번호 입니다.")
         }
@@ -33,15 +35,14 @@ class LoginAuthenticationProcessingFilter (
 
     @Throws(Exception::class)
     override fun successfulAuthentication(
-        request: HttpServletRequest?, response: HttpServletResponse?, chain: FilterChain?, authResult: Authentication?
+        request: HttpServletRequest, response: HttpServletResponse, chain: FilterChain, authResult: Authentication
     ) {
         this.authenticationSuccessHandler.onAuthenticationSuccess(request, response, authResult)
     }
 
     private fun _authenticate(loginRequest: LoginRequest): Authentication {
-                                // 아이디와 패스워드로 인증하는 경우에 사용하는 토큰
         // username과 password를 조합해서 UsernamePasswordAuthenticationToken인스턴스를 만든다.
-        val authenticationToken = UsernamePasswordAuthenticationToken(
+        val authenticationToken = UsernamePasswordAuthenticationToken( // 아이디와 패스워드로 인증하는 경우에 사용하는 토큰
             loginRequest.username,
             loginRequest.password
         )

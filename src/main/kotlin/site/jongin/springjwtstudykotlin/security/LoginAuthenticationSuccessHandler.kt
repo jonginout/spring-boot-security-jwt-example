@@ -31,3 +31,9 @@ class LoginAuthenticationSuccessHandler(
         this.objectMapper.writeValue(response.writer, tokenResponse)
     }
 }
+
+/*
+    API에 접속하기 위해서는 access token을 API 서버에 제출해서 인증을 해야 합니다.
+    이 때 사용하는 인증 방법이 Bearer Authentication 입니다.
+    이 방법은 OAuth를 위해서 고안된 방법이고, RFC 6750에 표준명세서가 있습니다.
+ */

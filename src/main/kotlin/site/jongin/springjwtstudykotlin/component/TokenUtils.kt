@@ -5,6 +5,8 @@ import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.Jwts
 import kr.socar.alliance.server.properties.TokenProperties
 import org.springframework.stereotype.Component
+import org.springframework.util.StringUtils
+import site.jongin.springjwtstudykotlin.exception.AuthorizationHeaderException
 import java.util.*
 import javax.servlet.http.HttpServletRequest
 
@@ -13,17 +15,19 @@ class TokenUtils(
     private val tokenProperties: TokenProperties
 ) {
 
-    fun extract(request: HttpServletRequest): Optional<String> {
-        val header: String = request.getHeader(this.tokenProperties.headerName) ?: return Optional.empty()
-
-        if (this._validateHeaderLength(header)) {
-            return Optional.empty()
+    fun extract(header: String): String {
+        if (StringUtils.isEmpty(header)) {
+            throw AuthorizationHeaderException("Authorization header is empty.")
         }
 
-        return Optional.of(header.substring(this.tokenProperties.headerPrefix.length))
+        if (this._validateHeaderLength(header)) {
+            throw AuthorizationHeaderException("Authorization header length is short.")
+        }
+
+        return header.substring(this.tokenProperties.headerPrefix.length)
     }
 
-    fun loginFromToken(token: String): String {
+    fun usernameFromToken(token: String): String {
                                         // Claims 중 subject
         return _getClaimFromToken(token, Claims::getSubject)
     }
