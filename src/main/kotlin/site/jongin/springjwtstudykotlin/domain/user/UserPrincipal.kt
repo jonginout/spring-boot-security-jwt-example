@@ -1,5 +1,7 @@
 package site.jongin.springjwtstudykotlin.domain.user
 
+import org.springframework.security.core.authority.SimpleGrantedAuthority
+
 /*
     principal : 보호된 대상에 접근하는 유저
  */
@@ -8,5 +10,7 @@ class UserPrincipal(
 ) : org.springframework.security.core.userdetails.User(
     user.username,
     user.password,
-    setOf() // java의 set을 만드는 것
+    user.authorities.map {
+        SimpleGrantedAuthority(it.authority)
+    }
 )

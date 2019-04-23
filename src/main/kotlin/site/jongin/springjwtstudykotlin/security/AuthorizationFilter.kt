@@ -65,7 +65,7 @@ class AuthorizationFilter (
         val authenticationToken = UsernamePasswordAuthenticationToken(
             userPrincipal,
             null,
-            setOf()
+            userPrincipal.authorities
         ).apply {
                            // 새로운 인증 세부 사항 인스턴스를 만들 때 클래스에 의해 호출됩니다.
             this.details = WebAuthenticationDetailsSource().buildDetails(request)

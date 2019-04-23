@@ -47,4 +47,8 @@ class UserService(
             )
         )
     }
+
+    fun findAll(): List<User> {
+        return this.userRepository.findAll()
+    }
 }

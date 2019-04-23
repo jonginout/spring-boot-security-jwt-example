@@ -30,11 +30,11 @@ class SecurityConfig(
     private val objectMapper: ObjectMapper
 ) : WebSecurityConfigurerAdapter() {
 
-//    @Bean
-//    @Throws(Exception::class)
-//    override fun authenticationManagerBean(): AuthenticationManager {
-//        return super.authenticationManagerBean()
-//    }
+    @Bean
+    @Throws(Exception::class)
+    override fun authenticationManagerBean(): AuthenticationManager {
+        return super.authenticationManagerBean()
+    }
 
     @Bean
     fun corsConfigurationSource(

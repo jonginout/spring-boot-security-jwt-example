@@ -1,0 +1,17 @@
+GET {{host}}/test
+Authorization: Bearer {{token}}
+
+###
+GET {{host}}/test/ok
+Authorization: Bearer {{token}}
+
+###
+
+
+
+
+
+
+
+
+
